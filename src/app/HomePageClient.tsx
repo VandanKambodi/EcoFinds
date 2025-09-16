@@ -38,10 +38,10 @@ export default function HomePageClient() {
       {/* Hero Banner Section */}
       <div className="relative h-80 rounded-lg overflow-hidden mb-12">
         <div 
-          className="absolute inset-0 bg-[url('/LOGIN_IMAGE.png')] bg-cover bg-center" 
+          className="absolute inset-0 bg-[url('/home-img.png')] bg-cover bg-center" 
         >
           <div className="absolute inset-0 bg-opacity-50 flex flex-col justify-center items-center text-center p-4">
-            <h1 className="text-4xl md:text-5xl font-extrabold text-white">Give Your Items a Second Life</h1>
+            <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900/70">Give Your Items a Second Life</h1>
             <p className="mt-4 text-lg text-gray-700 max-w-2xl">Join our community to buy and sell pre-loved treasures. Reduce waste, save money, and discover unique finds.</p>
           </div>
         </div>

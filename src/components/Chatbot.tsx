@@ -1,8 +1,7 @@
 'use client';
 
 import { useState, FormEvent, useRef, useEffect } from 'react';
-// ChatBubble component is now defined within this file, so no import is needed.
-import { X, Send, Bot } from 'lucide-react'; // Import the Bot icon
+import { X, Send, Bot } from 'lucide-react';
 
 // Define the structure of a message
 interface Message {
@@ -12,29 +11,35 @@ interface Message {
 }
 
 const WELCOME_MESSAGE: Message = {
-    id: 'initial-welcome',
-    role: 'assistant',
-    content: "Hi! I'm the EcoFinds assistant. How can I help you today? You can ask me about listing products, our policies, or anything else about the platform."
+  id: 'initial-welcome',
+  role: 'assistant',
+  content:
+    "Hi! I'm the EcoFinds assistant. How can I help you today? You can ask me about listing products, our policies, or anything else about the platform.",
 };
 
-// ChatBubble component is now part of Chatbot.tsx to resolve the import error.
+// ✅ ChatBubble takes isOpen as a prop
 interface ChatBubbleProps {
   onClick: () => void;
+  isOpen: boolean;
 }
 
-function ChatBubble({ onClick }: ChatBubbleProps) {
+function ChatBubble({ onClick, isOpen }: ChatBubbleProps) {
   return (
     <button
       onClick={onClick}
-      className="fixed bottom-6 right-6 bg-transparent w-16 h-16 rounded-full flex items-center justify-center shadow-lg focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 z-50"
+      className={`fixed bottom-6 right-6 w-16 h-16 rounded-full flex items-center justify-center shadow-lg z-50
+        bg-[#A16E4B]/50 focus:outline-none
+        ${
+          isOpen
+            ? 'ring-2 ring-[#A16E4B]/70 ring-offset-4'
+            : 'hover:bg-[#A16E4B]/20 rransition duration-300'
+        }`}
       aria-label="Open help chat"
     >
       <img
-        src="/Chat.gif" 
+        src="/Chat.gif"
         alt="Chatbot icon"
-        width={64}
-        height={64}
-        className="rounded-full"
+        className="w-16 h-16 rounded-full"
       />
     </button>
   );
@@ -88,11 +93,12 @@ export default function Chatbot() {
 
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
-      console.error("Failed to get response from bot:", error);
+      console.error('Failed to get response from bot:', error);
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'error',
-        content: "Sorry, I'm having trouble connecting. Please try again later.",
+        content:
+          "Sorry, I'm having trouble connecting. Please try again later.",
       };
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
@@ -103,22 +109,30 @@ export default function Chatbot() {
   return (
     <div>
       {/* The Chat Window with Animation */}
-      <div 
-        className={`fixed bottom-24 right-6 w-[calc(100vw-3rem)] sm:w-96 h-[60vh] sm:h-[32rem] bg-[#F2EDDE] rounded-lg shadow-2xl flex flex-col z-50 transition-all duration-300 ease-in-out
-        ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0 pointer-events-none'}`}
+      <div
+        className={`fixed bottom-26 right-6 w-[calc(100vw-3rem)] sm:w-96 h-[60vh] sm:h-[32rem] bg-[#F2EDDE] rounded-lg shadow-2xl flex flex-col z-50 transition-all duration-300 ease-in-out
+        ${
+          isOpen
+            ? 'translate-y-0 opacity-100'
+            : 'translate-y-10 opacity-0 pointer-events-none'
+        }`}
       >
-        {/* Enhanced Header */}
+        {/* Header */}
         <div className="bg-[#A16E4B]/70 text-white p-4 rounded-t-lg flex justify-between items-center">
           <div className="flex items-center gap-3">
             <Bot size={24} />
             <h2 className="font-bold text-lg">EcoFinds Help</h2>
           </div>
-          <button onClick={() => setIsOpen(false)} aria-label="Close chat" className="hover:opacity-75 transition-opacity">
+          <button
+            onClick={() => setIsOpen(false)}
+            aria-label="Close chat"
+            className="hover:opacity-75 transition-opacity"
+          >
             <X size={24} />
           </button>
         </div>
-        
-        {/* Messages with Custom Scrollbar */}
+
+        {/* Messages */}
         <div className="flex-1 p-4 overflow-y-auto chat-messages">
           {messages.map((m) => {
             const messageClasses = {
@@ -126,33 +140,41 @@ export default function Chatbot() {
               assistant: 'bg-white text-gray-900',
               error: 'bg-red-100 text-red-800 font-medium',
             };
-            const alignmentClass = m.role === 'user' ? 'justify-end' : 'justify-start';
+            const alignmentClass =
+              m.role === 'user' ? 'justify-end' : 'justify-start';
 
             return (
               <div key={m.id} className={`flex my-2 ${alignmentClass}`}>
-                <div className={`p-3 rounded-lg max-w-xs ${messageClasses[m.role]}`}>
+                <div
+                  className={`p-3 rounded-lg max-w-xs ${messageClasses[m.role]}`}
+                >
                   <p className="text-sm whitespace-pre-wrap">{m.content}</p>
                 </div>
               </div>
             );
           })}
-          {/* New Typing Indicator */}
+
+          {/* Typing Indicator */}
           {isLoading && (
             <div className="flex justify-start">
-                <div className="p-3 rounded-lg max-w-xs bg-white">
-                    <div className="flex items-center justify-center space-x-1">
-                        <span className="h-2 w-2 bg-gray-400 rounded-full animate-pulse [animation-delay:-0.3s]"></span>
-                        <span className="h-2 w-2 bg-gray-400 rounded-full animate-pulse [animation-delay:-0.15s]"></span>
-                        <span className="h-2 w-2 bg-gray-400 rounded-full animate-pulse"></span>
-                    </div>
+              <div className="p-3 rounded-lg max-w-xs bg-white">
+                <div className="flex items-center justify-center space-x-1">
+                  <span className="h-2 w-2 bg-gray-400 rounded-full animate-pulse [animation-delay:-0.3s]" />
+                  <span className="h-2 w-2 bg-gray-400 rounded-full animate-pulse [animation-delay:-0.15s]" />
+                  <span className="h-2 w-2 bg-gray-400 rounded-full animate-pulse" />
                 </div>
+              </div>
             </div>
           )}
+
           <div ref={messagesEndRef} />
         </div>
-        
-        {/* Input Form */}
-        <form onSubmit={handleSubmit} className="p-4 border-t bg-[#F2EDDE] rounded-b-lg">
+
+        {/* Input */}
+        <form
+          onSubmit={handleSubmit}
+          className="p-4 border-t bg-[#F2EDDE] rounded-b-lg"
+        >
           <div className="flex items-center">
             <input
               className="input-style flex-1 !mt-0"
@@ -160,16 +182,20 @@ export default function Chatbot() {
               placeholder="Ask a question..."
               onChange={(e) => setInput(e.target.value)}
             />
-            <button type="submit" className="ml-2 p-2 bg-[#A16E4B]/70 text-white rounded-full transition-opacity hover:opacity-80 disabled:opacity-50" aria-label="Send message" disabled={isLoading}>
-              <Send size={20} />
+            <button
+              type="submit"
+              className="ml-2 p-2 bg-[#A16E4B]/70 text-white rounded-full transition-opacity hover:opacity-80 disabled:opacity-50"
+              aria-label="Send message"
+              disabled={isLoading}
+            >
+              <Send size={24} />
             </button>
           </div>
         </form>
       </div>
-      
-      {/* The floating bubble button */}
-      <ChatBubble onClick={() => setIsOpen(!isOpen)} />
+
+      {/* Floating Bubble */}
+      <ChatBubble onClick={() => setIsOpen(!isOpen)} isOpen={isOpen} />
     </div>
   );
 }
-

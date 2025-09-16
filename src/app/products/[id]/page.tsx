@@ -70,9 +70,9 @@ export default function ProductDetailPage() {
     <div className="min-h-screen bg-[url('/bg-img2.png')] bg-center ">
       <div className="bg-white/80 min-h-screen">
       <Navbar />
-      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-[#F2EDDE]/60 border border-rounded-lg">
-          <div className="w-full h-96 relative rounded-lg overflow-hidden shadow-lg border-4">
+      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 border-l rounded-lg">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-[#F2EDDE]/60 border border-l-rounded-lg">
+          <div className="w-full h-96 relative rounded-lg overflow-hidden shadow-lg border-1 border-black">
              <Image src={product.images[0]} alt={product.title} fill className="object-cover" />
           </div>
           <div className="flex flex-col justify-center">
