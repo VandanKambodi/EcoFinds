@@ -10,7 +10,7 @@ import AuthModals from '@/components/AuthModals';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'EcoFinds',
+  title: 'ecoFinds',
   description: 'Sustainable Second-Hand Marketplace',
 };
 

@@ -18,7 +18,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     // 2. Wrap the entire div with the Link component
     <Link href={`/products/${product._id}`} className="block">
-      <div className="border border-4 group bg-[#F2EDDE] rounded-lg overflow-hidden shadow-sm hover:shadow-lg hover:border-gray-300 transition-all duration-300">
+      <div className="border border-1 border-black group bg-[#F2EDDE] rounded-lg overflow-hidden shadow-sm hover:shadow-lg hover:border-gray-300 transition-all duration-300">
         <div className="relative w-full h-56 bg-gray-200">
           <Image
             src={product.images[0] || 'https://placehold.co/600x400/EEE/31343C?text=No+Image'}
